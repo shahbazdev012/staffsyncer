@@ -24,6 +24,7 @@ const SigninForm = () => {
       return; // Exit early if validation fails
     }
     const error = await credentialsSigin(email, password);
+    console.log(error?.err)
     if (!error) {
       toast({
         description: "Success credentials",
@@ -32,7 +33,7 @@ const SigninForm = () => {
       router.refresh(); // This will now work correctly
     } else {
       toast({
-        description: String(error) || "An Error Occurred",
+        description: String(error.err) || "An Error Occurred",
         variant: "destructive",
       });
     }

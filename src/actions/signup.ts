@@ -35,9 +35,16 @@ const credentialsSignup = async (
     });
     // Indicate success
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Signup error:", error);
+
+    // Use a type guard to refine `error`
+    if (error instanceof Error) {
+      return { success: false, error: error.message };
+    }
+
     return { success: false, error: "An unexpected error occurred" };
+  
   }
 };
 
