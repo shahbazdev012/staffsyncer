@@ -8,7 +8,7 @@ const dbConnect = async () => {
 
   try {
     await mongoose.connect(process.env.MONGODB_URI as string, {
-      dbName: "nextjs",
+      dbName: process.env.DB_NAME as string,
     });
     console.log("Connected to MongoDB.",connection.host);
   } catch (error) {
