@@ -13,6 +13,6 @@ const globalRoleSchema = new mongoose.Schema(
 );
 
 // Create the model and specify the collection name as 'global_roles'
-const GlobalRole = mongoose.models.GlobalRole || mongoose.model("GlobalRole", globalRoleSchema, "global_roles");
+const GlobalRole = mongoose.models?.GlobalRole || mongoose.model("GlobalRole", globalRoleSchema, "global_roles");
 
 export default GlobalRole;
