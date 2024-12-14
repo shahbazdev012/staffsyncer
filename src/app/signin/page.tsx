@@ -12,11 +12,16 @@ import SigninFrom from "@/components/client/form/signin";
 import { auth, signIn } from "@/auth";
 import { redirect } from "next/navigation";
 import { BiLogoGithub } from "react-icons/bi";
+import GlobalRole from "@/models/globalRole";
+import dbConnect from "@/lib/dbConnect";
 
 const signin = async () => {
   const session = await auth();
-  if (session?.user) {
-    redirect("/");
+  await dbConnect();
+  const role = await GlobalRole.findById(session?.user.role);
+
+  if (role?.name === "user") {
+    redirect("/create-organization");
   }
 
   return (

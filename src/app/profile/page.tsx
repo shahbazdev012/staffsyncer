@@ -6,6 +6,7 @@ const ProfilePage = () => {
   const { data: session } = useSession();
   const role = session?.user?.role;
   const user=session?.user;
+  const id = session?.user?._id;
 
   return (
     <div>
@@ -17,6 +18,9 @@ const ProfilePage = () => {
       )}
       <div>
         {user?.email}
+      </div>
+      <div>
+        {`${id} id is `}
       </div>
     </div>
   );

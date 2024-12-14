@@ -6,7 +6,8 @@ const globalRoleSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      unique: true, // Ensure that role names are unique
+      unique: true,
+      trim: true,
     },
   },
   { timestamps: true }

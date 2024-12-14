@@ -28,6 +28,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
         // Attach the role to the user object
         user .role = alreadyUser.role; // Assign the role to user
+        user ._id = alreadyUser._id;
 
         return true;
       } catch (err) {
@@ -39,6 +40,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // Add role to the token if user exists
       if (user) {
         token .role = user.role;
+        token ._id = user._id;
       }
       return token;
     },
@@ -46,6 +48,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // Include role in the session object
       if (token?.role) {
         session.user.role = token.role as string;
+        session.user._id =token._id as string;
       }
       return session;
     },

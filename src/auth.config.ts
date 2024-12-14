@@ -29,7 +29,7 @@ const authConfig: NextAuthConfig = {
 
         try {
           const response = await fetch(
-            `${process.env.NEXTAUTH_URL}/api/auth/credentials?email=${email}`,
+            `${process.env.DOMAIN_BASE_URL}/api/auth/credentials?email=${email}`,
             {
               method: "GET",
               headers: {

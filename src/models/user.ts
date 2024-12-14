@@ -1,18 +1,21 @@
 import mongoose, { Schema } from "mongoose";
 import GlobalRole from "./globalRole";
 
-const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, select: false },
-  googleId: { type: String },
-  githubId: { type: String, required: false, default: null },
-  role: { 
-    type: Schema.Types.ObjectId, 
-    ref: "GlobalRole", // Reference to the GlobalRole model
-    required: true, // User must have a role
+const UserSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, select: false },
+    googleId: { type: String },
+    githubId: { type: String, required: false, default: null },
+    role: {
+      type: Schema.Types.ObjectId,
+      ref: "GlobalRole", // Reference to the GlobalRole model
+      required: true, // User must have a role
+    },
   },
-});
+  { timestamps: true }
+);
 
 // Pre-save hook to set the role to "user" by default
 UserSchema.pre("validate", async function (next) {
