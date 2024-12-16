@@ -2,17 +2,21 @@ import crypto from "crypto";
 import mongoose from "mongoose";
 import ActionToken from "@/models/actionToken";
 import dbConnect from "@/lib/dbConnect";
+import Organization from "@/models/organization";
 
 const generateOrganizationToken = async (userId: string , email:string) => {
   await dbConnect(); // Ensure DB connection
 
   // Check if userId is valid
   if (!mongoose.Types.ObjectId.isValid(userId)) {
-    console.log(userId);
     throw new Error("Invalid userId");
   }
 
-  // Generate a secure token using crypto
+  const existingOrganization = await Organization.findOne({ adminEmail: email });
+  
+  if (existingOrganization) {
+    throw new Error("An organization with this admin email already exists.");
+  }
   const token = crypto.randomBytes(20).toString("hex"); // Generates a 40-character token
 
   try {
@@ -29,7 +33,7 @@ const generateOrganizationToken = async (userId: string , email:string) => {
 
     // Create the approval URL with the token
     const baseUrl = process.env.DOMAIN_BASE_URL; // Assumes DOMAIN_BASE_URL is defined in your .env file
-    const approveUrl = `${baseUrl}/admin/approve-org/new?token=${token}&email=${email}`;
+    const approveUrl = `${baseUrl}/admin/approve-org/new?token=${token}`;
     return approveUrl; // Return the approval URL
   } catch (error) {
     console.error("Error saving ActionToken:", error);

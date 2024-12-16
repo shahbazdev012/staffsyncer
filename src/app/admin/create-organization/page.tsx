@@ -7,8 +7,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CreateOrganizationRequest from "@/components/client/form/createOrganizationrRequest";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import GlobalRole from "@/models/globalRole";
+import User from "@/models/user";
+import dbConnect from "@/lib/dbConnect";
+const page = async () => {
+  const session = await auth();
 
-const page = () => {
+  await dbConnect();
+  const user = await User.findById(session?.user._id);
+  const role = await GlobalRole.findById(user?.global_role_id);
+
+  if (role?.name == "org_admin") {
+    redirect("/overview");
+  } else if (!user) {
+    redirect("/signin");
+  }
+
   return (
     <div className="flex justify-center items-center h-screen">
       <Card className="max-w-sm w-full">

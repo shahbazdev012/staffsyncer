@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import User from "@/models/user";
 import {
   Card,
   CardContent,
@@ -18,10 +19,10 @@ import dbConnect from "@/lib/dbConnect";
 const signin = async () => {
   const session = await auth();
   await dbConnect();
-  const role = await GlobalRole.findById(session?.user.role);
-
+  const user = await User.findById(session?.user._id);
+  const role = await GlobalRole.findById(user?.global_role_id);
   if (role?.name === "user") {
-    redirect("/create-organization");
+    redirect("/admin/create-organization");
   }
 
   return (

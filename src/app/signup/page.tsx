@@ -16,7 +16,7 @@ import { BiLogoGithub } from "react-icons/bi";
 const Signup = async () => {
   const session = await auth();
   if (session?.user) {
-    redirect("/");
+    redirect("/admin/create-organization");
   }
   return (
     <div className="flex justify-center items-center h-screen">

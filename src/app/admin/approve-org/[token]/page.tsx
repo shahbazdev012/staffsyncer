@@ -7,8 +7,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CreateOrganization from "@/components/client/form/createOrganization";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const page = () => {
+const page = async () => {
+  const session = await auth();
+
+  const user = session?.user;
+  if (!user) {
+    redirect("/signin");
+  }
   return (
     <div className="flex justify-center items-center h-screen">
       <Card className="max-w-sm w-full">

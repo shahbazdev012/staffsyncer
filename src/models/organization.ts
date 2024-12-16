@@ -8,11 +8,13 @@ const organizationSchema = new mongoose.Schema(
     adminEmail: {
       type: String,
       required: true,
+      unique: true,
     },
     owner_id: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      unique: true,
     },
   },
   { timestamps: true }

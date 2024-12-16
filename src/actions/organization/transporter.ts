@@ -83,7 +83,7 @@ const sendEmail = async (email: string) => {
     console.log("Email sent:", info.messageId);
   } catch (error) {
     console.error("Error sending email:", error);
-    return error;
+    throw error;
   }
 };
 

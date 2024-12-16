@@ -1,13 +1,12 @@
 "use server";
-import { redirect } from "next/navigation";
 import sendEmail from "./transporter";
 const sendOrgCreationEmail = async (email: string) => {
   try {
-  sendEmail(email);
-    redirect("/");
+    await sendEmail(email);
+    return;
   } catch (error) {
-    const err = error as any;
-    return err.cause;
+    const err = error;
+    return err;
   }
 };
 export { sendOrgCreationEmail };

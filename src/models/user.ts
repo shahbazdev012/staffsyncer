@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, select: false },
     googleId: { type: String },
     githubId: { type: String, required: false, default: null },
-    role: {
+    global_role_id: {
       type: Schema.Types.ObjectId,
       ref: "GlobalRole", // Reference to the GlobalRole model
       required: true, // User must have a role
@@ -19,10 +19,10 @@ const UserSchema = new mongoose.Schema(
 
 // Pre-save hook to set the role to "user" by default
 UserSchema.pre("validate", async function (next) {
-  if (!this.role) {
+  if (!this.global_role_id) {
     const defaultRole = await GlobalRole.findOne({ name: "user" });
     if (defaultRole) {
-      this.role = defaultRole._id;
+      this.global_role_id = defaultRole._id;
     } else {
       throw new Error("Default role 'user' not found in the database.");
     }

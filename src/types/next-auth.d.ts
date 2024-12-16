@@ -2,7 +2,6 @@ import { DefaultSession, DefaultUser } from "next-auth";
 
 declare module "next-auth" {
   interface User extends DefaultUser {
-    role?: string; // Ensure this is a string
     _id?:string;
   }
 
@@ -11,7 +10,6 @@ declare module "next-auth" {
   }
 
   interface JWT {
-    role: string; // Ensure this is a string
     _id: string;
   }
 }
