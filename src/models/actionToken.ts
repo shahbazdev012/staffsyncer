@@ -15,12 +15,15 @@ const actionTokenSchema = new mongoose.Schema(
     },
     action: {
       type: String,
-      required: true, // Define the type of action (e.g., "verify_email", "reset_password")
+      required: false, // Define the type of action (e.g., "verify_email", "reset_password")
     },
-    email:
-    {
-      type:String,
-      required:true,
+    email: {
+      type: String,
+      required: false,
+    },
+    meta: {
+      type: Object, // Simple object for key-value pairs
+      default: {}, // Default value as an empty object
     },
     expiresAt: {
       type: Date,
@@ -34,6 +37,7 @@ const actionTokenSchema = new mongoose.Schema(
 
 // Create the model and specify the collection name as 'action_tokens'
 const ActionToken =
-  mongoose.models?.ActionToken || mongoose.model("ActionToken", actionTokenSchema, "action_tokens");
+  mongoose.models?.ActionToken ||
+  mongoose.model("ActionToken", actionTokenSchema, "action_tokens");
 
 export default ActionToken;

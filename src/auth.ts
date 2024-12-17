@@ -9,25 +9,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     signIn: async ({ user, account }) => {
       try {
-        const { email, name, id } = user ;
+        const { email, name, id } = user;
 
         await dbConnect(); // Ensure DB connection
 
-        let alreadyUser = await User.findOne({ email });
+        let existingUser = await User.findOne({ email });
 
         if (
-          !alreadyUser &&
+          !existingUser &&
           (account?.provider === "google" || account?.provider === "github")
         ) {
           // If user doesn't exist, create one with a default role
-          alreadyUser = await User.create({
+          existingUser = await User.create({
             email,
             name,
             githubId: id,
           });
         }
         // Attach the role to the user object
-        user ._id = alreadyUser._id;
+        user._id = existingUser._id;
 
         return true;
       } catch (err) {
@@ -38,14 +38,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     jwt: async ({ token, user }) => {
       // Add role to the token if user exists
       if (user) {
-        token ._id = user._id;
+        token._id = user._id;
       }
       return token;
     },
     session: async ({ session, token }) => {
       // Include role in the session object
       if (token) {
-        session.user._id =token._id as string;
+        session.user._id = token._id as string;
       }
       return session;
     },

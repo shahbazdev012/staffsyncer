@@ -12,6 +12,7 @@ import {
   Send,
   Settings2,
   SquareTerminal,
+  Users,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -114,6 +115,17 @@ const data = {
         {
           title: "Limits",
           url: "#",
+        },
+      ],
+    },
+    {
+      title: "Manage Employee",
+      url: "manage-employee",
+      icon: Users,
+      items: [
+        {
+          title: "Add Employee",
+          url: "add-employee",
         },
       ],
     },

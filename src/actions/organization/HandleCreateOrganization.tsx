@@ -20,7 +20,7 @@ const HandleCreateOrganization = async (token: string, orgName: string) => {
     if (!userId || !email) {
       throw new Error("Invalid token data.");
     }
-    const organization =await Organization.create({
+    const organization = await Organization.create({
       name: orgName,
       adminEmail: email,
       owner_id: userId,
@@ -29,16 +29,16 @@ const HandleCreateOrganization = async (token: string, orgName: string) => {
     if (!orgAdminRole) {
       throw new Error("Global role 'org_admin' not found in the database.");
     }
-    await User.findByIdAndUpdate(userId, { role: orgAdminRole._id });
+    await User.findByIdAndUpdate(userId, {
+      global_role_id: orgAdminRole._id,
+    });
     await actionToken.deleteOne();
 
     await createOrganizationRoles(organization._id);
     return;
-  } catch (error ) {
+  } catch (error) {
     console.error("Error in HandleCreateOrganization:", error || error);
-    throw new Error(
-     ` error || Failed to create organization and update user role.`
-    );
+    throw error; // Re-throw the original error
   }
 };
 
